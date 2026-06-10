@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Raisa ❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            transition: opacity 0.5s ease;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #2c2c2c;
+            margin-bottom: 40px;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            height: 80px; /* Gives space for the runaway button */
+            position: relative;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            border: 1px solid #e0e0e0;
+            border-radius: 30px;
+            cursor: pointer;
+            outline: none;
+            background-color: #ffffff;
+            color: #4a4a4a;
+            transition: background-color 0.3s, transform 0.2s, color 0.3s;
+        }
+
+        #yesBtn {
+            border-color: #ff4d6d;
+            color: #ff4d6d;
+        }
+
+        #yesBtn:hover {
+            background-color: #ff4d6d;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        #noBtn {
+            position: absolute;
+            white-space: nowrap;
+            transition: left 0.1s ease, top 0.1s ease;
+            z-index: 10;
+        }
+
+        /* Success Screen Overlay */
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+            z-index: 100;
+        }
+
+        .success-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .success-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: #ff4d6d;
+            line-height: 1.5;
+            padding: 20px;
+            font-weight: 600;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            .success-content h2 {
+                font-size: 2rem;
+            }
+            .btn {
+                padding: 10px 22px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <h1>I love you Raisa, will you love me back? Please, sweety? ❤️</h1>
+        <div class="buttons-container">
+            <button class="btn" id="yesBtn">I love you too</button>
+            <button class="btn" id="noBtn">I don't love you</button>
+        </div>
+    </div>
+
+    <div class="success-overlay" id="successScreen">
+        <div class="success-content">
+            <h2>I love you infinity babe, you are finally mine! I can't unlove you ever. ♾️❤️</h2>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const mainContainer = document.getElementById('mainContainer');
+        const successScreen = document.getElementById('successScreen');
+
+        // Function to move the "No" button randomly
+        function moveButton() {
+            // Calculate available screen space (minus padding to keep it fully visible)
+            const padding = 100;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+            // Generate random positions, ensuring it stays well within viewport boundaries
+            const randomX = Math.max(padding / 2, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding / 2, Math.floor(Math.random() * maxY));
+
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+        }
+
+        // Trigger on desktop hover (mouseover)
+        noBtn.addEventListener('mouseover', moveButton);
+
+        // Trigger on mobile touch or click attempts
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevents default click emulation
+            moveButton();
+        });
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        // "Yes" Button Action
+        yesBtn.addEventListener('click', () => {
+            // Hide main screen and show success overlay
+            mainContainer.style.opacity = '0';
+            successScreen.classList.add('active');
+
+            // Launch sweet floating heart/confetti effects
+            duration = 5 * 1000;
+            animationEnd = Date.now() + duration;
+            defaults = { startVelocity: 25, spread: 360, ticks: 50, zIndex: 200 };
+
+            function randomInRange(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+              const timeLeft = animationEnd - Date.now();
+
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              const particleCount = 40 * (timeLeft / duration);
+              
+              // Soft pink and red palette for hearts/confetti
+              confetti(Object.assign({}, defaults, { 
+                particleCount, 
+                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                colors: ['#ff4d6d', '#ff758f', '#ffb3c1', '#ffccd5']
+              }));
+              confetti(Object.assign({}, defaults, { 
+                particleCount, 
+                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                colors: ['#ff4d6d', '#ff758f', '#ffb3c1', '#ffccd5']
+              }));
+            }, 250);
+        });
+    </script>
+</body>
+</html>
